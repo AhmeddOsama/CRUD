@@ -1,0 +1,5 @@
+micronaut:
+  application:
+    name: CRUD
+  server:
+    port: 56649
