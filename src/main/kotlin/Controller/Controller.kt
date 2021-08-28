@@ -33,5 +33,15 @@ class Controller {
     fun save(@Body body:String):String{
         return Services.add(body)
     }
+    @Put("/update")
+    fun update(@Body body:String): String{
+        return Services.update(body)
+    }
+    @Delete("/delete")
+    fun deleteById(@Body id: String): String {
+
+        return Services.deleteById(id)
+    }
+
 
 }
