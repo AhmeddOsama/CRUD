@@ -8,6 +8,6 @@ interface Idatabaseclient {
     fun findById(id: String): String
     fun add(body: String): String
     fun update(body: String): String
-    fun deleteById(id: String): String
+    fun delete(id: String): String
     fun getD(d: Department): String
 }

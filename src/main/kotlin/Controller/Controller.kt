@@ -11,37 +11,41 @@ import services.mySqlClient
 
 @Controller("/")
 class Controller {
+    val sqlclient = mySqlClient()
     @Get("/help")
     @Produces(MediaType.TEXT_PLAIN)
     fun index(): String {
-        return mySqlClient.connection()
+        return sqlclient.connection()
     }
     @Get("/get/{id}")
     @Produces(MediaType.TEXT_PLAIN)
     fun findById(id: String): String {
-        return mySqlClient.findById(id)
+        return sqlclient.findById(id)
     }
     @Get("/getAll")
     @Produces(MediaType.TEXT_PLAIN)
     fun getAll(): String {
-        return mySqlClient.getAll()
+        return sqlclient.getAll()
     }
     @Post("/save")
     fun save(@Body body: String): String {
-        return mySqlClient.add(body)
+        return sqlclient.add(body)
     }
     @Put("/update")
     fun update(@Body body: String): String {
-        return mySqlClient.update(body)
+        return sqlclient.update(body)
     }
     @Delete("/delete")
     fun deleteById(@Body id: String): String {
-
-        return mySqlClient.deleteById(id)
+        return sqlclient.delete(id)
     }
     @Get("/try")
     fun test(@Body dep: Department): String {
         println(dep)
-        return mySqlClient.getD(dep)
+        return sqlclient.getD(dep)
+    }
+    @Get("/config")
+    fun hi(): String {
+        return sqlclient.readConf()
     }
 }
