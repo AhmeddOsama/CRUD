@@ -4,9 +4,10 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.0.0"
     id("io.micronaut.application") version "2.0.3"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.5.21"
+    id("org.jlleitschuh.gradle.ktlint-idea") version "7.1.0"
     id("org.jmailen.kotlinter") version "3.5.1"
 }
-
+apply plugin:"org.jmailen.kotlinter"
 version = "0.1"
 group = "com.example"
 
@@ -37,6 +38,7 @@ dependencies {
     implementation ('com.google.code.gson:gson:2.8.6')
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     api("io.grpc:grpc-kotlin-stub:1.0.0")
+
 }
 
 
@@ -58,6 +60,8 @@ tasks {
             jvmTarget = "1.8"
         }
     }
-
+    tasks.check {
+        dependsOn("installKotlinterPrePushHook")
+    }
 
 }

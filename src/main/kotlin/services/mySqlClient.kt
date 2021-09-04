@@ -10,29 +10,17 @@ class mySqlClient : Idatabaseclient {
     lateinit var query: ResultSet
     lateinit var result: String
 
-    fun readConf(): String {
+    fun readConf(): Properties {
         var filename = "dbinfo.ini"
         var properties = Properties()
-
-        try {
-            val fis = FileInputStream(filename)
-            properties.load(fis)
-            return properties.getProperty("url")
-        } catch (ex: FileNotFoundException) {
-            return "FileNotFound"
-        } catch (ex: IOException) {
-            return "IO Exception"
-        }
+        val fis = FileInputStream(filename)
+        properties.load(fis)
+        return properties
     }
     override fun connection(): String {
-
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost/lab4?serverTimezone=UTC", "root", "")
-            return "Database Connected Successfully"
-        } catch (sqlError: SQLException) {
-            sqlError.printStackTrace()
-            return "Failure"
-        }
+        var prop = readConf()
+        connection = DriverManager.getConnection(prop["url"].toString(), prop["username"].toString(), prop["password"].toString())
+        return "Database Connected Successfully"
     }
     override fun findById(id: String): String {
         if (connection() == "Failure")

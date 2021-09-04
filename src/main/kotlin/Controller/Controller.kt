@@ -8,6 +8,7 @@ import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Produces
 import model.Department
 import services.mySqlClient
+import java.sql.SQLException
 
 @Controller("/")
 class Controller {
@@ -15,7 +16,11 @@ class Controller {
     @Get("/help")
     @Produces(MediaType.TEXT_PLAIN)
     fun index(): String {
-        return sqlclient.connection()
+        try {
+            return sqlclient.connection()
+        } catch (e: SQLException) {
+            return e.printStackTrace().toString()
+        }
     }
     @Get("/get/{id}")
     @Produces(MediaType.TEXT_PLAIN)
@@ -43,9 +48,5 @@ class Controller {
     fun test(@Body dep: Department): String {
         println(dep)
         return sqlclient.getD(dep)
-    }
-    @Get("/config")
-    fun hi(): String {
-        return sqlclient.readConf()
     }
 }
