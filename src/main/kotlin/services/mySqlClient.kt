@@ -32,7 +32,6 @@ class mySqlClient : Idatabaseclient {
         return result
     }
     override fun getAll(): String {
-
         if (connection() == "Failure")
             return "Failed to connect to Database"
         var statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
