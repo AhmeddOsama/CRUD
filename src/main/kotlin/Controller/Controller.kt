@@ -13,14 +13,11 @@ import java.sql.SQLException
 @Controller("/")
 class Controller {
     val sqlclient = mySqlClient()
+
     @Get("/help")
     @Produces(MediaType.TEXT_PLAIN)
     fun index(): String {
-        try {
-            return sqlclient.connection()
-        } catch (e: SQLException) {
-            return e.printStackTrace().toString()
-        }
+        return wrapperfunction { sqlclient.connection() }
     }
     @Get("/get/{id}")
     @Produces(MediaType.TEXT_PLAIN)
@@ -48,5 +45,12 @@ class Controller {
     fun test(@Body dep: Department): String {
         println(dep)
         return sqlclient.getD(dep)
+    }
+    fun wrapperfunction(func: () -> String): String {
+        try {
+            return func()
+        } catch (e: SQLException) {
+            return e.printStackTrace().toString()
+        }
     }
 }
