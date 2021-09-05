@@ -14,43 +14,38 @@ import java.sql.SQLException
 class Controller {
     val sqlclient = mySqlClient()
 
-    @Get("/help")
-    @Produces(MediaType.TEXT_PLAIN)
-    fun index(): String {
-        return wrapperfunction { sqlclient.connection() }
-    }
     @Get("/get/{id}")
     @Produces(MediaType.TEXT_PLAIN)
     fun findById(id: String): String {
-        return sqlclient.findById(id)
+        return wrapperfunction { sqlclient.findById(id) }
     }
     @Get("/getAll")
     @Produces(MediaType.TEXT_PLAIN)
     fun getAll(): String {
-        return sqlclient.getAll()
+        return wrapperfunction { sqlclient.getAll() }
     }
-    @Post("/save")
+    @Post("/insert")
     fun save(@Body body: String): String {
-        return sqlclient.add(body)
+        return wrapperfunction { sqlclient.insert(body) }
     }
     @Put("/update")
     fun update(@Body body: String): String {
-        return sqlclient.update(body)
+        return wrapperfunction { sqlclient.update(body) }
     }
     @Delete("/delete")
-    fun deleteById(@Body id: String): String {
-        return sqlclient.delete(id)
+    fun delete(@Body id: String): String {
+        return wrapperfunction { sqlclient.delete(id) }
     }
     @Get("/try")
     fun test(@Body dep: Department): String {
         println(dep)
-        return sqlclient.getD(dep)
+        return wrapperfunction { sqlclient.getD(dep) }
     }
     fun wrapperfunction(func: () -> String): String {
         try {
             return func()
         } catch (e: SQLException) {
-            return e.printStackTrace().toString()
+            return e.toString()
         }
     }
 }
