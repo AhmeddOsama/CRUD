@@ -13,3 +13,4 @@ out/
 .classpath
 .factorypath
 ktlint.jar
+dbinfo.ini

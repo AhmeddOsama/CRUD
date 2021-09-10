@@ -38,6 +38,7 @@ dependencies {
     implementation ('com.google.code.gson:gson:2.8.6')
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     api("io.grpc:grpc-kotlin-stub:1.0.0")
+    testImplementation 'org.mockito:mockito-inline:3.12.4'
 
 }
 

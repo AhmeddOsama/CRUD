@@ -2,4 +2,4 @@ micronaut:
   application:
     name: CRUD
   server:
-    port: 56649
+    port: 56641
