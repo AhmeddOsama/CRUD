@@ -1,4 +1,5 @@
 package com.example
+import Controller.Controller
 import io.micronaut.runtime.EmbeddedApplication
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import jakarta.inject.Inject
@@ -15,14 +16,22 @@ import services.mySqlClient
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.SQLException
+import org.mockito.MockitoAnnotations;
 
 @MicronautTest
 class CRUDTest {
-    @InjectMocks
-    lateinit var client : Idatabaseclient//mock interface ,pass the interface
+    @Mock
+    lateinit var client : Idatabaseclient
+    lateinit var controller: Controller
     @Inject
     lateinit var application: EmbeddedApplication<*>
 
+   @BeforeEach
+   fun initialize()
+   {
+       MockitoAnnotations.initMocks(this);
+       controller = Controller(client)
+   }
 
     @Test
     fun testItWorks() {
@@ -30,8 +39,16 @@ class CRUDTest {
     }
 
     @Test
-    @DisplayName("Checking insert")
-    fun testInsertTable() {
-        Assertions.assertEquals("Done Successfully", client.insert("mo-dep"))
+    @DisplayName("Checking InsertValid")
+    fun testInsertValid() {
+        Mockito.`when`(client.insert("mo-dep")).thenReturn("Done Successfully")
+        Assertions.assertEquals("Done Successfully",controller.insert("mo-dep"))
+    }
+
+    @Test
+    @DisplayName("Checking InsertInvalid")
+    fun testInsertInvalid()
+    {
+        Mockito.`when`(client.insert("mo-dep")).thenReturn("Done Successfully")
     }
 }

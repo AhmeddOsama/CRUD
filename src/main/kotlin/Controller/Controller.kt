@@ -32,7 +32,7 @@ class Controller(@Inject val databaseclient: Idatabaseclient) {
     }
 
     @Post("/insert")
-    fun save(@Body body: String): String {
+    fun insert(@Body body: String): String {
         return wrapperfunction { idatabaseclient.insert(body) }
     }
 
