@@ -17,7 +17,6 @@ class mySqlClient : Idatabaseclient {
         var properties = Properties()
         val fis = FileInputStream(filename)
         properties.load(fis)
-      //  println(prop["username"].toString())
         return properties
 
     }
