@@ -7,21 +7,16 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.mockito.InjectMocks
-import org.mockito.Matchers
 import org.mockito.Mock
 import org.mockito.Mockito
-import services.Idatabaseclient
-import services.mySqlClient
-import java.sql.Connection
-import java.sql.PreparedStatement
+import services.iDatabaseClient
 import java.sql.SQLException
 import org.mockito.MockitoAnnotations;
 
 @MicronautTest
 class CRUDTest {
     @Mock
-    lateinit var client : Idatabaseclient
+    lateinit var client : iDatabaseClient
     lateinit var controller: Controller
     @Inject
     lateinit var application: EmbeddedApplication<*>
@@ -100,8 +95,8 @@ class CRUDTest {
     @DisplayName("checking findValid")
     fun findValid()
     {
-        Mockito.`when`(client.findById("")).thenReturn("")
-        Assertions.assertEquals("",controller.findById(""))
+        Mockito.`when`(client.find("")).thenReturn("")
+        Assertions.assertEquals("",controller.find(""))
     }
 
     @Test
@@ -109,8 +104,8 @@ class CRUDTest {
     fun findInvalid()
     {
         val e = SQLException()
-        Mockito.`when`(client.findById("")).thenReturn(e.toString())
-        Assertions.assertEquals(e.toString(),controller.findById(""))
+        Mockito.`when`(client.find("")).thenReturn(e.toString())
+        Assertions.assertEquals(e.toString(),controller.find(""))
     }
 
 }

@@ -5,27 +5,18 @@ import model.Department
 import java.io.*
 import java.sql.*
 import java.util.*
+
 @Singleton
-class mySqlClient : Idatabaseclient {
+class mySqlClient : iDatabaseClient {
     lateinit var query: ResultSet
     lateinit var result: String
-    var prop = readConf()
     var connection = Connect()
 
-    fun readConf(): Properties {
-        var filename = "D:\\moodi\\work\\CRUD\\CRUD\\dbinfo.ini"
-        var properties = Properties()
-        val fis = FileInputStream(filename)
-        properties.load(fis)
-        return properties
-
-    }
-
     fun Connect(): Connection{
-        return  DriverManager.getConnection(prop["url"].toString(), prop["username"].toString(), prop["password"].toString())
+        return  DriverManager.getConnection(System.getenv("DATABASE_URL"), System.getenv("DATABASE_USERNAME"), System.getenv("DATABASE_PASSWORD"))
     }
 
-    override fun findById(id: String): String {
+    override fun find(id: String): String {
         var statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
         query = statement.executeQuery("SELECT * FROM `departments` WHERE dno=" + id)
         query.next()
@@ -66,10 +57,4 @@ class mySqlClient : Idatabaseclient {
         return "Delete Success!"
     }
 
-    override fun getD(d: Department): String {
-        var statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
-        var query = statement.executeQuery("SELECT * FROM `departments` WHERE dno=" + d.dno)
-        result = query.getString("dno") + "-" + query.getString("dname") + "" + "-" + query.getString("manager")
-        return result
-    }
 }

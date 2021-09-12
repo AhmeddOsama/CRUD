@@ -7,49 +7,37 @@ import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Produces
 import jakarta.inject.Inject
-import model.Department
-import services.Idatabaseclient
+import services.iDatabaseClient
 import java.sql.SQLException
 
 @Controller("/")
-class Controller(@Inject val databaseclient: Idatabaseclient) {
-    var idatabaseclient:Idatabaseclient
+class Controller(@Inject val databaseClient: iDatabaseClient) {
 
-    init {
-        this.idatabaseclient=databaseclient
-    }
-
-    @Get("/get/{id}")
+    @Get("/get")
     @Produces(MediaType.TEXT_PLAIN)
-    fun findById(id: String): String {
-        return wrapperfunction { idatabaseclient.findById(id) }
+    fun find(id: String): String {
+        return wrapperfunction { databaseClient.find(id) }
     }
 
     @Get("/getAll")
     @Produces(MediaType.TEXT_PLAIN)
     fun getAll(): String {
-        return wrapperfunction { idatabaseclient.getAll() }
+        return wrapperfunction { databaseClient.getAll() }
     }
 
     @Post("/insert")
     fun insert(@Body body: String): String {
-        return wrapperfunction { idatabaseclient.insert(body) }
+        return wrapperfunction { databaseClient.insert(body) }
     }
 
     @Put("/update")
     fun update(@Body body: String): String {
-        return wrapperfunction { idatabaseclient.update(body) }
+        return wrapperfunction { databaseClient.update(body) }
     }
 
     @Delete("/delete")
     fun delete(@Body id: String): String {
-        return wrapperfunction { idatabaseclient.delete(id) }
-    }
-
-    @Get("/try")
-    fun test(@Body dep: Department): String {
-        println(dep)
-        return wrapperfunction { idatabaseclient.getD(dep) }
+        return wrapperfunction { databaseClient.delete(id) }
     }
 
     fun wrapperfunction(func: () -> String): String {
