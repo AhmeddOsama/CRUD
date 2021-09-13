@@ -2,10 +2,7 @@ package Controller
 
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.*
-import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
-import io.micronaut.http.annotation.Get
-import io.micronaut.http.annotation.Produces
 import jakarta.inject.Inject
 import services.iDatabaseClient
 import java.sql.SQLException
@@ -13,34 +10,34 @@ import java.sql.SQLException
 @Controller("/")
 class Controller(@Inject val databaseClient: iDatabaseClient) {
 
-    @Get("/get")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Get("/get/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
     fun find(id: String): String {
-        return wrapperfunction { databaseClient.find(id) }
+        return runAndCatch { databaseClient.getUser(id) }
     }
 
     @Get("/getAll")
     @Produces(MediaType.TEXT_PLAIN)
     fun getAll(): String {
-        return wrapperfunction { databaseClient.getAll() }
+        return runAndCatch { databaseClient.getAll() }
     }
 
     @Post("/insert")
     fun insert(@Body body: String): String {
-        return wrapperfunction { databaseClient.insert(body) }
+        return runAndCatch { databaseClient.insert(body) }
     }
 
     @Put("/update")
     fun update(@Body body: String): String {
-        return wrapperfunction { databaseClient.update(body) }
+        return runAndCatch { databaseClient.update(body) }
     }
 
     @Delete("/delete")
     fun delete(@Body id: String): String {
-        return wrapperfunction { databaseClient.delete(id) }
+        return runAndCatch { databaseClient.delete(id) }
     }
 
-    fun wrapperfunction(func: () -> String): String {
+    fun runAndCatch(func: () -> String): String {
         try {
             return func()
         } catch (e: SQLException) {

@@ -39,7 +39,7 @@ dependencies {
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     api("io.grpc:grpc-kotlin-stub:1.0.0")
     testImplementation 'org.mockito:mockito-inline:3.12.4'
-
+    implementation 'org.json:json:20171018'
 }
 
 

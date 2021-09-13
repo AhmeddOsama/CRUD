@@ -95,7 +95,7 @@ class CRUDTest {
     @DisplayName("checking findValid")
     fun findValid()
     {
-        Mockito.`when`(client.find("")).thenReturn("")
+        Mockito.`when`(client.getUser("")).thenReturn("")
         Assertions.assertEquals("",controller.find(""))
     }
 
@@ -104,7 +104,7 @@ class CRUDTest {
     fun findInvalid()
     {
         val e = SQLException()
-        Mockito.`when`(client.find("")).thenReturn(e.toString())
+        Mockito.`when`(client.getUser("")).thenReturn(e.toString())
         Assertions.assertEquals(e.toString(),controller.find(""))
     }
 
