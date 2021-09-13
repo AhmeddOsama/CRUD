@@ -9,18 +9,17 @@ import java.util.*
 
 @Singleton
 class mySqlClient : iDatabaseClient {
-
     lateinit var query: ResultSet
     lateinit var result: String
     lateinit var jsonResponse : JSONObject
     var connection = Connect()
     var jsonArray = JSONObject()
+
     fun Connect(): Connection{
         return  DriverManager.getConnection(System.getenv("DATABASE_URL"), System.getenv("DATABASE_USERNAME"), System.getenv("DATABASE_PASSWORD"))
     }
 
     override fun getUser(id: String): String {
-
         jsonResponse = JSONObject()
         var statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
         query = statement.executeQuery("SELECT * FROM `departments` WHERE dno=" + id)
@@ -33,8 +32,6 @@ class mySqlClient : iDatabaseClient {
     }
 
     override fun getAll(): String {
-
-
         var statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
         query = statement.executeQuery("SELECT * FROM `departments`")
         query.next()
@@ -54,7 +51,6 @@ class mySqlClient : iDatabaseClient {
     override fun insert(body: String): String {
         val information = body.split("-")
         var statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
-        println("${information[0]}")
         var query = statement.executeUpdate("INSERT INTO `departments`(`dno`, `dname`, `manager`) VALUES ('${information[0]}','${information[1]}','${information[2]}')")
         return "Done Successfully"
     }
