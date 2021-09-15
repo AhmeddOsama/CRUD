@@ -6,7 +6,7 @@ import io.micronaut.http.annotation.Controller
 import jakarta.inject.Inject
 import services.iDatabaseClient
 import java.sql.SQLException
-
+//trying changes for auth_changes branch
 @Controller("/")
 class Controller(@Inject val databaseClient: iDatabaseClient) {
 
