@@ -42,7 +42,6 @@ dependencies {
     implementation 'org.json:json:20171018'
 //    compileOnly "io.micronaut.security:micronaut-security-annotations"
 //    implementation "io.micronaut.security:micronaut-security-jwt"
-
 }
 
 
