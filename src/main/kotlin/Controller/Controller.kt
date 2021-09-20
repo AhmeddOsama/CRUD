@@ -4,11 +4,12 @@ import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.*
 import io.micronaut.http.annotation.Controller
 import jakarta.inject.Inject
+import services.JWT
 import services.iDatabaseClient
 import java.sql.SQLException
-//trying changes for auth_changes branch
+
 @Controller("/")
-class Controller(@Inject val databaseClient: iDatabaseClient) {
+class Controller(@Inject val databaseClient: iDatabaseClient,@Inject val jwt: JWT) {
 
     @Get("/get/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -35,6 +36,11 @@ class Controller(@Inject val databaseClient: iDatabaseClient) {
     @Delete("/delete")
     fun delete(@Body id: String): String {
         return runAndCatch { databaseClient.delete(id) }
+    }
+
+    @Post("/login")
+    fun login(): String {
+        return jwt.getJWT()
     }
 
     fun runAndCatch(func: () -> String): String {

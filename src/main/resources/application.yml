@@ -3,3 +3,11 @@ micronaut:
     name: CRUD
   server:
     port: 56641
+  security:
+    authentication: bearer
+    token:
+      jwt:
+        signatures:
+          secret:
+            generator:
+              secret: pleaseChangeThisSecretForANewOne
