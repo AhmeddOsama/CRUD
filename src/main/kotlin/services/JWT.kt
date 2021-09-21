@@ -10,13 +10,20 @@ import javax.crypto.spec.SecretKeySpec
 
 @Singleton
 class JWT {
-    fun getJWT(): String {
+    fun getJWT(username: String): String {
         var JWT_HEADER = "{\"alg\":\"HS256\",\"typ\":\"JWT\"}";
         var secret = "shh"
         var payload = JSONObject()
         var base: Base64
-        payload.put("name", "oss")
+        val nowMillis = System.currentTimeMillis()
+        val now = Date(nowMillis)
+        val expMillis: Long = nowMillis
+        val exp = Date(expMillis)
+
+        payload.put("username", username)
         payload.put("id", 1)
+        payload.put("exp", exp);
+
         var signature = hmacSha256(
             base64().encode(JWT_HEADER.toByteArray()) + "." + base64().encode(
                 payload.toString().toByteArray()
@@ -25,6 +32,7 @@ class JWT {
         var token = base64().encode(JWT_HEADER.toByteArray()) + "." + base64().encode(
             payload.toString().toByteArray()
         ) + "."+ signature
+        println("generating token")
         return token
     }
 
@@ -42,5 +50,23 @@ class JWT {
 
     private fun encode(bytes: ByteArray): String {
         return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes)
+    }
+
+    fun verifyToken(token :String):String
+     {
+         var secret = "shh"
+         var token = token.split(" ")
+         var tokenParts = token[1].split(".")
+         var jwtHeader =tokenParts[0]
+         var payload =tokenParts[1]
+         var signature=tokenParts[2]
+         print(signature+" "+hmacSha256(jwtHeader + "." + payload, secret))
+         if(signature.equals(hmacSha256(jwtHeader+ "." + payload, secret)))
+         {
+             payload=String(Base64.getUrlDecoder().decode(tokenParts[1]))
+             val jsonPayload = JSONObject(payload)
+             println(jsonPayload.getLong("exp"))
+         }
+         return payload
     }
 }
