@@ -40,6 +40,8 @@ dependencies {
     api("io.grpc:grpc-kotlin-stub:1.0.0")
     testImplementation 'org.mockito:mockito-inline:3.12.4'
     implementation 'org.json:json:20171018'
+//    compileOnly "io.micronaut.security:micronaut-security-annotations"
+//    implementation "io.micronaut.security:micronaut-security-jwt"
 }
 
 
