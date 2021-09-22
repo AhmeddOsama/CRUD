@@ -31,7 +31,7 @@ class JWT {
         var token = base64().encode(JWT_HEADER.toByteArray()) + "." + base64().encode(
             payload.toString().toByteArray()
         ) + "."+ signature
-        println("generating token")
+        println("generating token ")
         return token
     }
 
