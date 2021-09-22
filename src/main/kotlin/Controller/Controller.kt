@@ -52,7 +52,6 @@ class Controller(@Inject val databaseClient: iDatabaseClient,@Inject val jwt: JW
            println(e.message)
            return jwt.getJWT("osama")
        }
-//        return jwt.getJWT("username")
     }
 
     fun runAndCatch(func: () -> String): String {
